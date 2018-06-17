@@ -387,11 +387,14 @@ module gear (
 		circle (r=bore_diameter/2);
 		if (circles>0)
 		{
-			for(i=[0:circles-1])
-				rotate([0,0,i*360/circles])
-				translate([circle_orbit_diameter/2,0,-1])
+			for(i=[0:circles-1]) rotate([0,0,i*360/circles]) translate([circle_orbit_diameter/2,0,-1]) {
 				linear_exturde_flat_option(flat =flat, height=max(gear_thickness,rim_thickness)+3)
-				circle(r=circle_diameter/2);
+				    circle(r=circle_diameter/2);
+            // ns: chamfer internal hole edges for clean printing.
+                cylinder(r1=min(circle_diameter/2+2,1.4*circle_diameter/2), r2=circle_diameter/2, h=2);
+                translate([0,0,min(gear_thickness,rim_thickness)])
+                     cylinder(r2=min(circle_diameter/2+2,1.4*circle_diameter/2), r1=circle_diameter/2, h=2);
+            }
 		}
 	}
 }
